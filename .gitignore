@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# My list of ignored files/folders
+.idea
+debug.json
+.git
+allureress/
+credential.py
