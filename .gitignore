@@ -131,6 +131,8 @@ dmypy.json
 # My list of ignored files/folders
 .idea
 debug.json
+chat_history.json
+temporary.py
 .git
 allureress/
 credential.py
