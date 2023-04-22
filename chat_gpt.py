@@ -37,7 +37,7 @@ def save_conversation(file_path: str, data: str):
         json.dump(data, file_name)
 
 
-def chat():
+def chat_gpt():
     while True:
         message = input("User: ")
         if message == "q":
@@ -48,4 +48,4 @@ def chat():
 
 
 if __name__ == '__main__':
-    chat()
+    chat_gpt()
