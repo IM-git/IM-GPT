@@ -4,6 +4,9 @@ from settings import TOKEN_GPT
 
 openai.api_key = TOKEN_GPT
 
+# If the size of the audio file is more than 25 MB:
+# https://platform.openai.com/docs/guides/speech-to-text/longer-inputs
+
 
 def convert_audio_to_text():
     """Transcribes audio into the input language."""
