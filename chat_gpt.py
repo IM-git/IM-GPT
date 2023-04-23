@@ -26,6 +26,22 @@ def main(message: str):
     save_conversation(data_story_conversation, data)
 
 
+def save_conversation_in_jsonl():
+    messages = []
+    while True:
+        message = input("User: ")  # message
+        if message == "q": break
+
+        messages.append({"role": "user", "content": message})
+        chat = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
+        reply = chat.choices[0].message.content
+        print(f"ChatGPT: {reply}")
+        messages.append({"role": "assistant", "content": reply})
+        with open(data_story_conversation, "a") as file_name:
+            json.dump(messages, file_name)
+            messages = []
+
+
 def read_file():
     with open(data_story_conversation, "r") as file:
         data = json.load(file)
