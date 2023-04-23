@@ -132,6 +132,7 @@ dmypy.json
 .idea
 debug.json
 chat_history.json
+chat_history.jsonl
 temporary.py
 .git
 allureress/
