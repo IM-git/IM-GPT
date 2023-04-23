@@ -65,7 +65,7 @@ def google_voice_acting(text: str):
     tts.save(mp3_file)
     try:
         playsound(mp3_file)
-    except BaseException():
+    except:
         print("Something wrong. Your ad could be here...")
 
 
@@ -92,6 +92,6 @@ if __name__ == '__main__':
 
     while True:
         message = input("User: ")
-        if message == "q":
+        if message in ["q", "exit", "quit", "stop"]:
             break
         run_chat_gpt(message)
