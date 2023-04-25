@@ -18,7 +18,7 @@ def run_chat_gpt(query: str):
     messages = [{"role": "user", "content": query}]
     reply = get_response_from_gpt(messages)
     print(f"ChatGPT: {reply}")
-    google_voice_acting(reply)
+    # google_voice_acting(reply)
     # pyttsx3_voice_acting(reply)
     messages.append({"role": "assistant", "content": reply})
     # save_conversation_in_json(data_story_conversation_json, messages)
