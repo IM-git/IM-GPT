@@ -131,6 +131,7 @@ dmypy.json
 # My list of ignored files/folders
 .idea
 debug.json
+elevenlabs.json
 chat_history.json
 chat_history.jsonl
 temporary.py
@@ -141,3 +142,4 @@ audio/
 credential.py
 mp3_file.mp3
 mp3_file.m4a
+output*.mp3
