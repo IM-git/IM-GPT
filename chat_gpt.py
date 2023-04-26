@@ -3,7 +3,7 @@ import json
 import time
 
 from settings import TOKEN_GPT
-from audio_gpt import google_voice_acting, pyttsx3_voice_acting
+from audio_gpt import google_voice_acting
 
 openai.api_key = TOKEN_GPT  # API token
 

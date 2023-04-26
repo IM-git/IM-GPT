@@ -1,7 +1,5 @@
 from chat_gpt import run_chat_gpt
-from audio_gpt import convert_voice_to_text, start_after_key_word
-
-import speech_recognition as sr
+from audio_gpt import convert_voice_to_text
 
 
 def _test_voice_assistant():
