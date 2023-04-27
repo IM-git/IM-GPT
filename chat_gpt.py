@@ -2,8 +2,8 @@ import openai
 import json
 import time
 
-from settings import TOKEN_GPT
-from audio_gpt import google_voice_acting
+from settings import TOKEN_GPT, EL_API_KEY
+from audio_gpt import google_voice_acting, ElevenLabsVoice
 from eleven_labs import convert_text_to_voice
 
 openai.api_key = TOKEN_GPT  # API token
@@ -11,6 +11,8 @@ openai.api_key = TOKEN_GPT  # API token
 # The file where the conversation history is stored
 data_story_conversation_json = "chat_history.jsonl"
 data_story_conversation_jsonl = "chat_history.jsonl"
+
+elv = ElevenLabsVoice(EL_API_KEY, "EXAVITQu4vr4xnSDxMaL")
 
 
 def run_chat_gpt(query: str):

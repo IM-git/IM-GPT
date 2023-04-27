@@ -1,6 +1,7 @@
 import os
 import openai
 import pyttsx3
+import requests
 from gtts import gTTS
 from playsound import playsound
 import speech_recognition as sr
@@ -93,30 +94,59 @@ def start_after_key_word(func: object, word="glad"):
 
 
 class ElevenLabsVoice:
-    chunk_size = 1024
-    stability = 0.75
-    similarity_boost = 0.75
+    CHUNK_SIZE = 1024
+    STABILITY = 0.75
+    SIMILARITY_BOOST = 0.75
 
-    # https://docs.elevenlabs.io/api-reference/voices-gets
-    voice_id = "EXAVITQu4vr4xnSDxMaL"
-    voice_name = "Bella"
-    tts_url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream"
+    def __init__(self, api_key, voice_id):
+        self.api_key = api_key
+        self.voice_id = voice_id
+        self.tts_url = f"https://api.elevenlabs.io/v1/text-to-speech/{self.voice_id}/stream"
 
-    data = {
-        "text": "Hello world!",
-        "voice_settings": {
-            "stability": stability,
-            "similarity_boost": similarity_boost
+    def convert_text_to_voice(self, mp3_file_name, message):
+        data = {
+            "text": message,
+            "voice_settings": {
+                "stability": self.STABILITY,
+                "similarity_boost": self.SIMILARITY_BOOST
+            }
         }
-    }
 
-    headers = {
-        "Accept": "application/json",
-        "xi-api-key": EL_API_KEY,
-        "Content-Type": "application/json"
-    }
+        headers = {
+            "Accept": "application/json",
+            "xi-api-key": self.api_key,
+            "Content-Type": "application/json"
+        }
 
-    def __init__(self):
-        pass
+        response = requests.post(self.tts_url, json=data, headers=headers, stream=True)
+        try:
+            with open(mp3_file_name, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=self.CHUNK_SIZE):
+                    if chunk:
+                        f.write(chunk)
+            playsound(mp3_file_name)
+        except:
+            print("Something went wrong. Please try again later.")
 
 
+if __name__ == '__main__':
+
+    # ------ Test ElevenLabs ------ #
+    elv = ElevenLabsVoice(EL_API_KEY, "EXAVITQu4vr4xnSDxMaL")
+    # Test 1
+    file_name_1 = "output.mp3"
+    elv.convert_text_to_voice(file_name_1, "Hello fworld!")
+
+    # Test 2
+    message = "Your API key. This is required by most endpoints to access our API programatically." \
+              "You can view your xi-api-key using the 'Profile' tab on the website."
+    file_name_2 = "output2.mp3"
+    elv.convert_text_to_voice(file_name_2, message=message)
+
+    # Test 3
+    message2 = "I've become so numb, I can't feel you there" \
+               "Become so tired, so much more aware" \
+               "I'm becoming this, all I want to do" \
+               "Is be more like me and be less like you"
+    file_name_3 = "output3.mp3"
+    elv.convert_text_to_voice(file_name_3, message=message2)
