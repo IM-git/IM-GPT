@@ -1,5 +1,6 @@
 from chat_gpt import run_chat_gpt
 from audio_gpt import convert_voice_to_text
+from eleven_labs import convert_text_to_voice
 
 
 def _test_voice_assistant():
@@ -16,5 +17,4 @@ def _test_voice_assistant():
 
 if __name__ == '__main__':
 
-    # _test_chat_assistant()
     _test_voice_assistant()

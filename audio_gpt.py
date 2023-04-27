@@ -5,7 +5,7 @@ from gtts import gTTS
 from playsound import playsound
 import speech_recognition as sr
 
-from settings import TOKEN_GPT
+from settings import TOKEN_GPT, EL_API_KEY
 
 openai.api_key = TOKEN_GPT
 
@@ -37,7 +37,7 @@ def convert_voice_to_text():
         recognizer.adjust_for_ambient_noise(source)  # removing background noises
         audio = recognizer.listen(source, phrase_time_limit=None, timeout=None)
         try:    # Performing conversion a voice to text
-            text = recognizer.recognize_google(audio, language="ru-RU")
+            text = recognizer.recognize_google(audio, language="en-US")    # en-US, ru-RU
             return text
         except sr.UnknownValueError:
             print("Google Speech Recognition could not understand audio")
@@ -90,4 +90,33 @@ def start_after_key_word(func: object, word="glad"):
                 func()
         except Exception as e:
             print("An error occurred: {}".format(e))
+
+
+class ElevenLabsVoice:
+    chunk_size = 1024
+    stability = 0.75
+    similarity_boost = 0.75
+
+    # https://docs.elevenlabs.io/api-reference/voices-gets
+    voice_id = "EXAVITQu4vr4xnSDxMaL"
+    voice_name = "Bella"
+    tts_url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream"
+
+    data = {
+        "text": "Hello world!",
+        "voice_settings": {
+            "stability": stability,
+            "similarity_boost": similarity_boost
+        }
+    }
+
+    headers = {
+        "Accept": "application/json",
+        "xi-api-key": EL_API_KEY,
+        "Content-Type": "application/json"
+    }
+
+    def __init__(self):
+        pass
+
 
