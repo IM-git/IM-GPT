@@ -1,8 +1,9 @@
 from typing import Callable
 
 from chat_gpt import run_chat_gpt
-from audio_gpt import convert_voice_to_text, google_voice_acting
-from eleven_labs import convert_text_to_voice
+from audio_gpt import AudioTools
+
+audio_tools = AudioTools()
 
 
 def _test_assistant(message: str, voice_func: Callable):
@@ -35,8 +36,8 @@ def _test_voice_assistant_elevenlabs():
 def _test_voice_assistant():
     while True:
         try:
-            message = convert_voice_to_text()
-            if message in ["q", "exit", "quit", "stop", "стоп", "выход"]:
+            message = audio_tools.convert_voice_to_text()
+            if message in ["q", "exit", "quit", "stop", "стоп", "выход", "404"]:
                 break
             print(f"User: {message}")
             run_chat_gpt(message)
