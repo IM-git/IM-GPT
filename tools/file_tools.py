@@ -10,7 +10,7 @@ class FileTools:
         return data
 
     @staticmethod
-    def save_conversation_in_jsonl(file_path: str, query: str, reply: str) -> None:
+    def save_conversation_in_jsonl(file_path: str, query: str, reply) -> None:
         """Saving the message to a JSONL file"""
         messages = [{"role": "user", "content": query}, {"role": "assistant", "content": reply}]
         with open(file_path, "a") as file_name:

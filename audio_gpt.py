@@ -34,7 +34,7 @@ class AudioTools:
 
     # google, pyttsx3
     @staticmethod
-    def get_voice_acting(text: str):
+    def get_voice_acting(text):
         if voice_assistance == "google":
             AudioTools._google_convert_text_to_voice(text)
         elif voice_assistance == "pyttsx3":
@@ -58,7 +58,7 @@ class AudioTools:
                 print(f"Error sending the request: {e}")
 
     @staticmethod
-    def _google_convert_text_to_voice(text: str):
+    def _google_convert_text_to_voice(text):
         """Uses gtts library to interface with Google Translates text to speech API.
         It requires an Internet connection. It's pretty easy to use."""
         mp3_file = "mp3_file.mp3"

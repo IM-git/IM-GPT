@@ -1,9 +1,12 @@
 from typing import Callable
 
-from chat_gpt import run_chat_gpt
+from chat_gpt import ChatGptTools
 from audio_gpt import AudioTools
+from tools import FileTools
 
 audio_tools = AudioTools()
+file_tools = FileTools()
+data_story_conversation_jsonl = "chat_history.jsonl"
 
 
 def _test_assistant(message: str, voice_func: Callable):
@@ -17,20 +20,13 @@ def _test_assistant(message: str, voice_func: Callable):
             print("An error occurred: {}".format(e))
 
 
-def _test_voice_assistant_google():
-    # message = ""
-    # _test_assistant(message, google_voice_acting())
-    pass
-
-
-def _test_voice_assistant_pyttsx3():
-    # _test_assistant()
-    pass
-
-
-def _test_voice_assistant_elevenlabs():
-    # _test_assistant()
-    pass
+def run_chat_gpt(query: str):
+    """Receive a request from the user and print a response from gpt.
+    Save the conversation messages."""
+    reply = ChatGptTools().get_response_from_gpt(query)
+    print(f"ChatGPT: {reply}")
+    audio_tools.get_voice_acting(reply)
+    file_tools.save_conversation_in_jsonl(data_story_conversation_jsonl, query, reply)
 
 
 def _test_voice_assistant():
@@ -42,7 +38,7 @@ def _test_voice_assistant():
             print(f"User: {message}")
             run_chat_gpt(message)
         except Exception as e:
-            print("An error occurred: {}".format(e))
+            print(f"An error occurred: {e}")
 
 
 if __name__ == '__main__':
