@@ -101,7 +101,7 @@ class ElevenLabsVoice:
     def __init__(self, api_key, voice_id):
         self.api_key = api_key
         self.voice_id = voice_id
-        self.tts_url = f"https://api.elevenlabs.io/v1/text-to-speech/{self.voice_id}/stream"
+        self.tts_url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream"
 
     def convert_text_to_voice(self, mp3_file_name, message):
         data = {

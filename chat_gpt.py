@@ -2,7 +2,7 @@ import openai
 import json
 import time
 
-from settings import TOKEN_GPT, EL_API_KEY
+from settings import TOKEN_GPT, EL_API_KEY, VOICE_ID
 from audio_gpt import google_voice_acting, ElevenLabsVoice
 from eleven_labs import convert_text_to_voice
 
@@ -12,24 +12,22 @@ openai.api_key = TOKEN_GPT  # API token
 data_story_conversation_json = "chat_history.jsonl"
 data_story_conversation_jsonl = "chat_history.jsonl"
 
-elv = ElevenLabsVoice(EL_API_KEY, "EXAVITQu4vr4xnSDxMaL")
+elv = ElevenLabsVoice(EL_API_KEY, VOICE_ID)
 
 
 def run_chat_gpt(query: str):
     """Receive a request from the user and print a response from gpt.
     Save the conversation messages."""
-    messages = [{"role": "user", "content": query}]
-    reply = get_response_from_gpt(messages)
+    reply = get_response_from_gpt(query)
     print(f"ChatGPT: {reply}")
-    convert_text_to_voice("output.mp3", reply)
-    # google_voice_acting(reply)
+    # elv.convert_text_to_voice("output.mp3", reply)
+    google_voice_acting(reply)
     # pyttsx3_voice_acting(reply)
-    messages.append({"role": "assistant", "content": reply})
-    # save_conversation_in_json(data_story_conversation_json, messages)
-    save_conversation_in_jsonl(data_story_conversation_jsonl, messages)
+    save_conversation_in_jsonl(data_story_conversation_jsonl, query, reply)
 
 
-def get_response_from_gpt(messages: list) -> list:
+def get_response_from_gpt(query: str) -> list:
+    messages = [{"role": "user", "content": query}]
     chat = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
     return chat.choices[0].message.content
 
@@ -40,16 +38,9 @@ def read_file(file_path: str) -> list | dict | tuple:
     return data
 
 
-def save_conversation_in_json(file_path: str, messages: list) -> None:
-    """Saving the message to a JSON file"""
-    data = read_file(file_path)
-    data[time.strftime('%Y-%m-%dT%H:%M:%S')] = messages
-    with open(file_path, "w") as file_name:
-        json.dump(data, file_name)
-
-
-def save_conversation_in_jsonl(file_path: str, messages: list) -> None:
+def save_conversation_in_jsonl(file_path: str, query: str, reply: str) -> None:
     """Saving the message to a JSONL file"""
+    messages = [{"role": "user", "content": query}, {"role": "assistant", "content": reply}]
     with open(file_path, "a") as file_name:
         for line in messages:
             json.dump(line, file_name)
